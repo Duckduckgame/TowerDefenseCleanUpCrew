@@ -23,9 +23,9 @@ public class ItemPlacementHelper : MonoBehaviour
     void FloorPosition()
     {
         Vector3 pos = transform.position;
-        pos.x = Mathf.Floor(pos.x);
-        pos.y = Mathf.Floor(pos.y);
-        pos.z = Mathf.Floor(pos.z);
+        pos.x = Mathf.Round(pos.x/8)*8;
+        pos.y = 0;
+        pos.z = Mathf.Round(pos.z/8)*8;
         transform.position = pos;
     }
 }
