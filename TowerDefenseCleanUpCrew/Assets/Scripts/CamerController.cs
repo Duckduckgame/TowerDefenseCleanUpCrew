@@ -14,13 +14,14 @@ public class CamerController : MonoBehaviour
     {
         mainCam = Camera.main;
         player = GameObject.FindGameObjectWithTag("Player");
-        offset = new Vector3(0, 90, -142); //player.transform.position - transform.position;
+        offset = new Vector3(0, 50, 0); //player.transform.position - transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         mainCam.orthographicSize += Input.mouseScrollDelta.y * -1;
+        mainCam.orthographicSize = Mathf.Clamp(mainCam.orthographicSize, 20, 55);
         transform.position = player.transform.position + offset;
     }
 }
