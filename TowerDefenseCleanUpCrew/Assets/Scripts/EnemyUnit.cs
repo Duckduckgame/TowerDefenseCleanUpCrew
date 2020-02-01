@@ -10,6 +10,9 @@ public class EnemyUnit : MonoBehaviour
     enemyState crntState;
     NavMeshAgent agent;
 
+    
+    SpriteRenderer spriteChild;
+
     public GameObject target;
     public Vector3 destination;
 
@@ -18,19 +21,31 @@ public class EnemyUnit : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.destination = target.transform.position;
-        InvokeRepeating("WigglePath", .5f, 1);
+        spriteChild = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(agent.velocity.x > 0)
+        {
+            spriteChild.flipX = false;
+        }
+        if (agent.velocity.x < 0)
+        {
+            spriteChild.flipX = true;
+        }
     }
 
     public void Die()
     {
-        agent.enabled = false;
-        transform.rotation = Quaternion.Euler(0, 0, 90);
-        Destroy(this, 2f);
+        try
+        {
+            if (agent.enabled == true)
+                agent.enabled = false;
+        }
+        catch { }
+        Destroy(gameObject, 2f);
     }
 
 
@@ -38,10 +53,8 @@ public class EnemyUnit : MonoBehaviour
     {
         if (other.GetComponent<FixingHandler>() != null)
         {
-            if (Random.Range(1, 3) == 1)
-            {
                 FixingHandler handler = other.GetComponent<FixingHandler>();
-                Debug.Log("found handler");
+
                 if (handler.crntEnemyCount < handler.maxAllowedEnemies)
                 {
                     crntState = enemyState.Attacking;
@@ -49,17 +62,23 @@ public class EnemyUnit : MonoBehaviour
                     handler.crntEnemyCount++;
                     handler.attackingUnits.Add(this);
                 }
-            }
+            
         }
     }
 
     public void ResetDestination()
     {
-        agent.destination = target.transform.position;
+        try
+        {
+            if (agent.enabled == true)
+                agent.destination = target.transform.position;
+        }
+        catch { }
     }
 
-    void WigglePath()
+    private void OnDrawGizmos()
     {
-        agent.Move( new Vector3(Random.Range(-0.5f, 0.5f),0, Random.Range( - 0.5f, 0.5f)));
+        //Gizmos.DrawLine(transform.position, agent.destination);
     }
+
 }

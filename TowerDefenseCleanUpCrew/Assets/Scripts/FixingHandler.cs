@@ -6,7 +6,8 @@ public class FixingHandler : MonoBehaviour
 {
     [SerializeField]
     GameObject health;
-
+    [SerializeField]
+    float damageMultiplier;
     public float life = 1000;
 
     public float maxAllowedEnemies = 10;
@@ -33,7 +34,7 @@ public class FixingHandler : MonoBehaviour
         Vector3 scale = health.transform.localScale;
         scale.x = healthNorm;
         health.transform.localScale = scale;
-
+        crntEnemyCount = attackingUnits.Count;
         if(life <= 0)
         {
             Die();
@@ -42,7 +43,7 @@ public class FixingHandler : MonoBehaviour
 
     void DamageSelf()
     {
-        life -= crntEnemyCount * 2;
+        life -= crntEnemyCount * damageMultiplier;
     }
 
     void DamageEnemies()
@@ -50,10 +51,12 @@ public class FixingHandler : MonoBehaviour
         if(crntEnemyCount != 0)
         {
             int index = Random.Range(0, attackingUnits.Count);
-            crntEnemyCount--;
-            attackingUnits[index].Die();
+            EnemyUnit unit = attackingUnits[index];
             attackingUnits.RemoveAt(index);
+            unit.Die();
 
+            crntEnemyCount--;
+            CleanList();
         }
     }
 
@@ -62,8 +65,23 @@ public class FixingHandler : MonoBehaviour
         maxAllowedEnemies = 0;
         foreach(EnemyUnit enemy in attackingUnits)
         {
-            enemy.ResetDestination();
+            try
+            {
+                if (enemy.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                    enemy.ResetDestination();
+            }
+            catch { }
+            Destroy(this);
         }
 
+    }
+
+    void CleanList()
+    {
+        for (int i = attackingUnits.Count - 1; i > -1; i--)
+        {
+            if (attackingUnits[i] == null)
+                attackingUnits.RemoveAt(i);
+        }
     }
 }
