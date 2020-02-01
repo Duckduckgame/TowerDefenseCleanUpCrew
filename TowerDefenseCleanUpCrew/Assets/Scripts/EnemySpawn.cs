@@ -10,10 +10,11 @@ public class EnemySpawn : MonoBehaviour
     //List<GameObject> targets;
     [SerializeField]
     GameObject target;
+
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 0, 0.1f);
+        InvokeRepeating("SpawnEnemy", 0, 1f);
     }
 
     // Update is called once per frame
@@ -30,7 +31,7 @@ public class EnemySpawn : MonoBehaviour
 
     void SpawnEnemy()
     {
-        GameObject enemyGO = Instantiate(enemy, transform.position, Quaternion.identity);
+        GameObject enemyGO = Instantiate(enemy, transform.position, Quaternion.identity, this.transform);
         enemyGO.GetComponent<EnemyUnit>().target = target;
     }
 }
