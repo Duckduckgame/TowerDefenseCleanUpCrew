@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public enum GameState {Siege, Clean }
+    public enum GameState {Siege, Clean, Win }
     public GameState crntState;
 
 
@@ -18,10 +18,11 @@ public class LevelManager : MonoBehaviour
     UIManager UIManager;
     int roundCount = 0;
     Vector3 cameraSiegePos;
+    [SerializeField]
     int RoundsLeft = 5;
 
     [SerializeField]
-    AudioClip[] music;
+    AudioClip[] musicClips;
     AudioSource source;
     void Start()
     {
@@ -60,11 +61,17 @@ public class LevelManager : MonoBehaviour
 
         if (prizesTaken == prizes.Length)
             LoseGame();
+
+        if(RoundsLeft == 0 && crntState != GameState.Win)
+        {
+            crntState = GameState.Win;
+            WinGame();
+        }
     }
 
     void StartSiege()
     {
-        source.clip = music[0];
+        source.clip = musicClips[0];
         source.Play();
         Camera.main.transform.position = cameraSiegePos;
         timer = 0;
@@ -92,7 +99,7 @@ public class LevelManager : MonoBehaviour
 
     void StartClean()
     {
-        source.clip = music[1];
+        source.clip = musicClips[1];
         source.Play();
         StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 0.5f));
         timer = 0;
@@ -112,8 +119,34 @@ public class LevelManager : MonoBehaviour
         Debug.LogError("You Lost.");
     }
 
+    public void WinGame()
+    {
+        Time.timeScale = 0;
+        //StartCoroutine(WinGameVisuals());
+        source.Stop();
+        source.clip = musicClips[2];
+        source.loop = false;
+        source.Play();
+        //Time.timeScale = 0;
+        StartCoroutine(UIManager.FlashText(UIManager.victory, 0.5f));
+        //yield return new WaitForSecondsRealtime(source.clip.length);
+        
+
+    }
+
     public void FlashFixText()
     {
         StartCoroutine(UIManager.FlashText(UIManager.fixText, 0.1f));
+    }
+
+    IEnumerator WinGameVisuals()
+    {
+        source.clip = musicClips[2];
+        source.Play();
+        //Time.timeScale = 0;
+        StartCoroutine(UIManager.FlashText(UIManager.victory, 2f));
+        //yield return new WaitForSecondsRealtime(source.clip.length);
+        Time.timeScale = 1;
+        yield return null;
     }
 }

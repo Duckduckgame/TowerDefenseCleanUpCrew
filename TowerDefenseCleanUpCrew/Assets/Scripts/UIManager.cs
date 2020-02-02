@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI corpseCount;
     [SerializeField]
     public TextMeshProUGUI fixText;
+    [SerializeField]
+    public TextMeshProUGUI victory;
 
 
     public IEnumerator ShowText(TextMeshProUGUI text, float time)
@@ -27,15 +29,15 @@ public class UIManager : MonoBehaviour
     public IEnumerator FlashText(TextMeshProUGUI text, float breakTimes)
     {
         text.enabled = true;
-        yield return new WaitForSeconds(breakTimes);
+        yield return new WaitForSecondsRealtime(breakTimes);
         text.enabled = false;
-        yield return new WaitForSeconds(breakTimes);
+        yield return new WaitForSecondsRealtime(breakTimes);
         text.enabled = true;
-        yield return new WaitForSeconds(breakTimes);
+        yield return new WaitForSecondsRealtime(breakTimes);
         text.enabled = false;
-        yield return new WaitForSeconds(breakTimes);
+        yield return new WaitForSecondsRealtime(breakTimes);
         text.enabled = true;
-        yield return new WaitForSeconds(breakTimes);
+        yield return new WaitForSecondsRealtime(breakTimes);
         text.enabled = false;
 
 
