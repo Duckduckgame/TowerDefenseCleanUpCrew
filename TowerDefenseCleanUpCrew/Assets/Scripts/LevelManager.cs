@@ -19,8 +19,13 @@ public class LevelManager : MonoBehaviour
     int roundCount = 0;
     Vector3 cameraSiegePos;
     int RoundsLeft = 5;
+
+    [SerializeField]
+    AudioClip[] music;
+    AudioSource source;
     void Start()
     {
+        source = GetComponent<AudioSource>();
         cameraSiegePos = Camera.main.transform.position;
         prizes = FindObjectsOfType<PrizeHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -59,9 +64,11 @@ public class LevelManager : MonoBehaviour
 
     void StartSiege()
     {
+        source.clip = music[0];
+        source.Play();
         Camera.main.transform.position = cameraSiegePos;
         timer = 0;
-        UIManager.siegeStart.text = "The Siege Starts. /n Rounds left: " + RoundsLeft.ToString();
+        UIManager.siegeStart.text = "The Siege Starts. Rounds left: " + RoundsLeft.ToString();
         StartCoroutine(UIManager.ShowText(UIManager.siegeStart, 2f));
         crntState = GameState.Siege;
         player.SetActive(false);
@@ -85,6 +92,8 @@ public class LevelManager : MonoBehaviour
 
     void StartClean()
     {
+        source.clip = music[1];
+        source.Play();
         StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 0.5f));
         timer = 0;
         crntState = GameState.Clean;

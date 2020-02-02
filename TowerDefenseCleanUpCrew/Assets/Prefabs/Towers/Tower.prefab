@@ -61,7 +61,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 13.8
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2629999531268346334
 MonoBehaviour:
@@ -100,8 +100,9 @@ MonoBehaviour:
   maxAllowedEnemies: 10
   crntEnemyCount: 0
   damageTimerInSeconds: 0
-  showRadius: 0
+  showRadius: 1
   attackingUnits: []
+  requiredDistanceFromPlayer: 21.07
 --- !u!114 &7675155859722337255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +183,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1783dd3e914830642b0d406315d4bafe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -286,6 +287,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 9041321720147108444, guid: 8d424e5a866d46f4dac63273d29e9cd2,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084100036722957041, guid: 8d424e5a866d46f4dac63273d29e9cd2,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4175088940583485534, guid: 8d424e5a866d46f4dac63273d29e9cd2,
         type: 3}
       propertyPath: m_Color.r
@@ -300,6 +311,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.47071913
+      objectReference: {fileID: 0}
+    - target: {fileID: 4175088940583485534, guid: 8d424e5a866d46f4dac63273d29e9cd2,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d424e5a866d46f4dac63273d29e9cd2, type: 3}

@@ -22,9 +22,14 @@ public class PlayerControler : MonoBehaviour
     SpriteRenderer  spriteRenderer;
     Animator animator;
     public float corpseCount = 0;
+
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip[] clips;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
@@ -81,20 +86,22 @@ public class PlayerControler : MonoBehaviour
                 fixingHandler = fixableObject.GetComponent<FixingHandler>();
 
             fixingHandler.life++;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = clips[1];
+                audioSource.Play();
+            }
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            audioSource.Stop();
             animator.SetBool("isAttacking", false);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        /*if (other.GetComponent<FixingHandler>() != null)
-        {
-            fixableObject = null;
-            fixingHandler = null;
-        }*/
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -102,6 +109,8 @@ public class PlayerControler : MonoBehaviour
         {
             Destroy(other.gameObject);
             corpseCount++;
+            audioSource.clip = clips[0];
+            audioSource.Play();
         }
     }
 

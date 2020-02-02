@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class FixingHandler : MonoBehaviour
 {
+    
+    
     [SerializeField]
     GameObject health;
     [SerializeField]
@@ -18,6 +21,8 @@ public class FixingHandler : MonoBehaviour
     [SerializeField]
     bool showRadius;
     public List<EnemyUnit> attackingUnits;
+    [SerializeField]
+    float requiredDistanceFromPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -102,14 +107,14 @@ public class FixingHandler : MonoBehaviour
 
         if (showRadius)
         {
-            SphereCollider col = GetComponent<SphereCollider>();
-            Gizmos.DrawWireSphere(transform.position + col.center, col.radius);
+            
+            Gizmos.DrawWireSphere(transform.position, requiredDistanceFromPlayer);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && Vector3.Distance(transform.position, other.transform.position) < requiredDistanceFromPlayer)
         {
             other.GetComponent<PlayerControler>().fixableObject = this.gameObject;
             FindObjectOfType<LevelManager>().FlashFixText();
