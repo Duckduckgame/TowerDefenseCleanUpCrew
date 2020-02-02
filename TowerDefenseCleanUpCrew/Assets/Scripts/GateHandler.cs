@@ -6,6 +6,8 @@ public class GateHandler : MonoBehaviour
 {
     [SerializeField]
     GameObject gate;
+    [SerializeField]
+    GameObject brokenGate;
     FixingHandler fixingHandler;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,7 @@ public class GateHandler : MonoBehaviour
         if(fixingHandler.life <= 0)
         {
             gate.SetActive(false);
+            brokenGate.SetActive(true);
             GetComponent<UnityEngine.AI.NavMeshObstacle>().enabled = false;
         }
     }
