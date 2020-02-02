@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI victory;
     [SerializeField]
     public TextMeshProUGUI defeat;
+    public GameObject startCleanPanel;
 
 
     public IEnumerator ShowText(TextMeshProUGUI text, float time)
@@ -43,6 +44,14 @@ public class UIManager : MonoBehaviour
         text.enabled = false;
 
 
+        yield return null;
+    }
+
+    public IEnumerator ShowPanel(GameObject panel, float time)
+    {
+        panel.SetActive(true);
+        yield return new WaitForSecondsRealtime(time);
+        panel.SetActive(false);
         yield return null;
     }
 }

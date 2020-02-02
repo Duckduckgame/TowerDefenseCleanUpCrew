@@ -17,7 +17,9 @@ public class LevelManager : MonoBehaviour
     public float timer;
     UIManager UIManager;
     int roundCount = 0;
+
     Vector3 cameraSiegePos;
+    float cameraSiegeSize;
     [SerializeField]
     int RoundsLeft = 5;
 
@@ -28,6 +30,7 @@ public class LevelManager : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         cameraSiegePos = Camera.main.transform.position;
+        cameraSiegeSize = Camera.main.orthographicSize;
         prizes = FindObjectsOfType<PrizeHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerControler = player.GetComponent<PlayerControler>();
@@ -44,11 +47,11 @@ public class LevelManager : MonoBehaviour
         UIManager.timer.text =  Mathf.Floor(timer*-1+20).ToString();
         if(timer > 20)
         {
-            if (crntState == GameState.Siege)
+            if (crntState == GameState.Siege && RoundsLeft > 1)
             {
                 StopSiege();
             }
-            else if (crntState == GameState.Clean)
+            else if (crntState == GameState.Clean && RoundsLeft > 0)
             {
                 StopClean();
             }
@@ -59,12 +62,12 @@ public class LevelManager : MonoBehaviour
             UIManager.corpseCount.text = playerControler.corpseCount.ToString();
         }
 
-        if (prizesTaken == prizes.Length && crntState != GameState.Loss)
+        if (prizesTaken == prizes.Length && crntState != GameState.Loss && crntState != GameState.Win)
         {
             crntState = GameState.Loss;
             LoseGame();
         }
-        if(RoundsLeft == 0 && crntState != GameState.Win)
+        if(RoundsLeft == 0 && crntState != GameState.Win && crntState != GameState.Loss)
         {
             crntState = GameState.Win;
             WinGame();
@@ -76,6 +79,7 @@ public class LevelManager : MonoBehaviour
         source.clip = musicClips[0];
         source.Play();
         Camera.main.transform.position = cameraSiegePos;
+        Camera.main.orthographicSize = cameraSiegeSize;
         timer = 0;
         UIManager.siegeStart.text = "The Siege Starts. Rounds left: " + RoundsLeft.ToString();
         StartCoroutine(UIManager.ShowText(UIManager.siegeStart, 2f));
@@ -103,7 +107,9 @@ public class LevelManager : MonoBehaviour
     {
         source.clip = musicClips[1];
         source.Play();
-        StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 0.5f));
+        StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 1f));
+        StartCoroutine(UIManager.ShowPanel(UIManager.startCleanPanel, 5f));
+        StartCoroutine(ResetTimerAfterTime(5));
         timer = 0;
         crntState = GameState.Clean;
         player.SetActive(true);
@@ -122,7 +128,9 @@ public class LevelManager : MonoBehaviour
         source.clip = musicClips[3];
         source.loop = false;
         source.Play();
+        UIManager.defeat.text = "Defeat! Rounds Survived: " + (5 - RoundsLeft).ToString();
         StartCoroutine(UIManager.FlashText(UIManager.defeat, 0.5f));
+        StartCoroutine(LoadToMenu());
     }
 
     public void WinGame()
@@ -132,14 +140,15 @@ public class LevelManager : MonoBehaviour
         source.clip = musicClips[2];
         source.loop = false;
         source.Play();
+        UIManager.victory.text = "Victory! Corpses Collected: " + playerControler.corpseCount.ToString();
         StartCoroutine(UIManager.FlashText(UIManager.victory, 0.5f));
-        
+        StartCoroutine(LoadToMenu());
 
     }
 
     public void FlashFixText()
     {
-        StartCoroutine(UIManager.FlashText(UIManager.fixText, 0.1f));
+        //StartCoroutine(UIManager.FlashText(UIManager.fixText, 0.1f));
     }
 
     IEnumerator WinGameVisuals()
@@ -151,5 +160,17 @@ public class LevelManager : MonoBehaviour
         //yield return new WaitForSecondsRealtime(source.clip.length);
         Time.timeScale = 1;
         yield return null;
+    }
+
+    IEnumerator ResetTimerAfterTime(float time) {
+        yield return new WaitForSecondsRealtime(time);
+        timer = 0;
+    }
+
+    IEnumerator LoadToMenu()
+    {
+      yield return new WaitForSecondsRealtime(5f);
+        Time.timeScale = 1;
+      UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
