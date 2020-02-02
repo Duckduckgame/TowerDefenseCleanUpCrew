@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 2315680490631157561}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,8 +146,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 500
-  m_Acceleration: 500
+  m_Speed: 100
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 0.1
   m_StoppingDistance: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ab466a9c1301c41b4e934b2410f408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crntState: 0
   target: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
 --- !u!136 &990342067463970976
@@ -182,10 +183,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.51
-  m_Height: 2.05
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.56, z: 0}
+  m_Radius: 1.78
+  m_Height: 6.01
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.56, z: 1.97}
 --- !u!54 &2315680490631157561
 Rigidbody:
   m_ObjectHideFlags: 0

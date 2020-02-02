@@ -14,10 +14,13 @@ public class EnemySpawn : MonoBehaviour
     float numberSpawned;
     public float maxNumberToSpawn;
 
+    [SerializeField]
+    Color[] colours;
+
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 0, 0.1f);
+
     }
 
     // Update is called once per frame
@@ -33,12 +36,25 @@ public class EnemySpawn : MonoBehaviour
         GameObject enemyGO = Instantiate(enemy, transform.position, Quaternion.identity, this.transform);
         enemyGO.GetComponent<EnemyUnit>().target = target;
         numberSpawned++;
+        //enemyGO.GetComponentInChildren<SpriteRenderer>().color *= c1[Random.Range(0, c1.Length)];
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, 5);
-        Gizmos.DrawLine(transform.position, target.transform.position);
+        try
+        {
+            Gizmos.DrawLine(transform.position, target.transform.position);
+        }
+        catch { }
+    }
+
+    public void StartSiegeSpawn()
+    {
+        for (int i = 0; i < maxNumberToSpawn; i++)
+        {
+            SpawnEnemy();
+        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class EnemyUnit : MonoBehaviour
 {
     public enum enemyState {Moving, Attacking, Nothing }
-    enemyState crntState;
+    public enemyState crntState;
     NavMeshAgent agent;
 
     
@@ -22,6 +22,7 @@ public class EnemyUnit : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.destination = target.transform.position;
         spriteChild = GetComponentInChildren<SpriteRenderer>();
+        Invoke("Die", 20);
     }
 
     // Update is called once per frame
@@ -41,17 +42,21 @@ public class EnemyUnit : MonoBehaviour
     {
         try
         {
-            if (agent.enabled == true)
-                agent.enabled = false;
+            agent.isStopped = true;
         }
         catch { }
-        Destroy(gameObject, 2f);
+        try
+        {
+            GetComponentInChildren<Animator>().SetBool("isDead", true);
+        }
+        catch { }
+        GetComponent<CapsuleCollider>().isTrigger = true;
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<FixingHandler>() != null)
+        if (other.GetComponent<FixingHandler>() != null && crntState != enemyState.Attacking)
         {
                 FixingHandler handler = other.GetComponent<FixingHandler>();
 
@@ -65,6 +70,7 @@ public class EnemyUnit : MonoBehaviour
             
         }
     }
+
 
     public void ResetDestination()
     {

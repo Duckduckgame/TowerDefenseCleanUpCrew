@@ -19,7 +19,8 @@ public class PlayerControler : MonoBehaviour
 
     SpriteRenderer  spriteRenderer;
     Animator animator;
-
+    [SerializeField]
+    float points = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,8 +83,19 @@ public class PlayerControler : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-
-        fixableObject = null;
-        fixingHandler = null;
+        if (other.GetComponent<FixingHandler>() != null)
+        {
+            fixableObject = null;
+            fixingHandler = null;
+        }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            Destroy(other.gameObject);
+            points++;
+        }
+    }
+
 }

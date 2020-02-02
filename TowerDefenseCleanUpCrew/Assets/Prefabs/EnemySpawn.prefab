@@ -45,3 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 6286819858167219703, guid: d5ca9f4679b8c9746b6c48e7aa204ddd, type: 3}
   target: {fileID: 0}
+  maxNumberToSpawn: 50
+  c1:
+  - {r: 0.52553254, g: 1, b: 0.4669811, a: 1}
+  - {r: 1, g: 0.4198113, b: 0.4198113, a: 1}
+  - {r: 0.495283, g: 0.7662586, b: 1, a: 1}
+  - {r: 0.87283057, g: 0.43867922, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}

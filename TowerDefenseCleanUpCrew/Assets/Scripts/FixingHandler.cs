@@ -67,6 +67,7 @@ public class FixingHandler : MonoBehaviour
         {
             try
             {
+                enemy.crntState = EnemyUnit.enemyState.Moving;
                 if (enemy.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
                     enemy.ResetDestination();
             }
@@ -82,6 +83,27 @@ public class FixingHandler : MonoBehaviour
         {
             if (attackingUnits[i] == null)
                 attackingUnits.RemoveAt(i);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        try
+        {
+            foreach (EnemyUnit enemy in attackingUnits)
+            {
+                Gizmos.DrawLine(transform.position, enemy.transform.position);
+            }
+        }
+        catch { }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            other.GetComponent<PlayerControler>().fixableObject = this.gameObject;
         }
     }
 }

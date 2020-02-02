@@ -18,11 +18,5 @@ public class TowerController : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            other.GetComponent<PlayerControler>().fixableObject = this.gameObject;
-        }
-    }
+
 }
