@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public enum GameState {Siege, Clean, Win }
+    public enum GameState {Siege, Clean, Win, Loss }
     public GameState crntState;
 
 
@@ -59,9 +59,11 @@ public class LevelManager : MonoBehaviour
             UIManager.corpseCount.text = playerControler.corpseCount.ToString();
         }
 
-        if (prizesTaken == prizes.Length)
+        if (prizesTaken == prizes.Length && crntState != GameState.Loss)
+        {
+            crntState = GameState.Loss;
             LoseGame();
-
+        }
         if(RoundsLeft == 0 && crntState != GameState.Win)
         {
             crntState = GameState.Win;
@@ -115,21 +117,22 @@ public class LevelManager : MonoBehaviour
 
     public void LoseGame()
     {
-        Time.timeScale = 0f;
-        Debug.LogError("You Lost.");
+        Time.timeScale = 0;
+        source.Stop();
+        source.clip = musicClips[3];
+        source.loop = false;
+        source.Play();
+        StartCoroutine(UIManager.FlashText(UIManager.defeat, 0.5f));
     }
 
     public void WinGame()
     {
         Time.timeScale = 0;
-        //StartCoroutine(WinGameVisuals());
         source.Stop();
         source.clip = musicClips[2];
         source.loop = false;
         source.Play();
-        //Time.timeScale = 0;
         StartCoroutine(UIManager.FlashText(UIManager.victory, 0.5f));
-        //yield return new WaitForSecondsRealtime(source.clip.length);
         
 
     }

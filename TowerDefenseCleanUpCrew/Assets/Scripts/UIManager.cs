@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI fixText;
     [SerializeField]
     public TextMeshProUGUI victory;
+    [SerializeField]
+    public TextMeshProUGUI defeat;
 
 
     public IEnumerator ShowText(TextMeshProUGUI text, float time)

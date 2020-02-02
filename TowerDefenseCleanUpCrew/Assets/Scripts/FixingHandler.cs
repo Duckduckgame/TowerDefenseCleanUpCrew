@@ -120,4 +120,13 @@ public class FixingHandler : MonoBehaviour
             FindObjectOfType<LevelManager>().FlashFixText();
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && Vector3.Distance(transform.position, other.transform.position) < requiredDistanceFromPlayer)
+        {
+            other.GetComponent<PlayerControler>().fixableObject = this.gameObject;
+            FindObjectOfType<LevelManager>().FlashFixText();
+        }
+    }
 }

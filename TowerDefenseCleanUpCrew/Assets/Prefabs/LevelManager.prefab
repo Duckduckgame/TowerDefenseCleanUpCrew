@@ -47,10 +47,12 @@ MonoBehaviour:
   crntState: 1
   prizesTaken: 0
   timer: 0
+  RoundsLeft: 5
   musicClips:
   - {fileID: 8300000, guid: b3abc75bd710b0243a40c13128e5c74b, type: 3}
   - {fileID: 8300000, guid: 695e2e7ddb5973144a1236c6dc94091e, type: 3}
   - {fileID: 8300000, guid: ae1fd4bf8775bdc4c948c4f9a519922c, type: 3}
+  - {fileID: 8300000, guid: 61b91c2d03e2d004da8727bc7ce252d2, type: 3}
 --- !u!82 &6316544331467743444
 AudioSource:
   m_ObjectHideFlags: 0
