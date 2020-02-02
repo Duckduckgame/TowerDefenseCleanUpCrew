@@ -13,14 +13,15 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     float maxSpeed = 5;
     Rigidbody rb;
+    [SerializeField]
+    float distanceFromFixer;
 
     public GameObject fixableObject;
     FixingHandler fixingHandler;
 
     SpriteRenderer  spriteRenderer;
     Animator animator;
-    [SerializeField]
-    float points = 0;
+    public float corpseCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,29 +73,34 @@ public class PlayerControler : MonoBehaviour
 
     void FixObject()
     {
-        if (Input.GetKey(KeyCode.Space) && fixableObject != null)
+        if (Input.GetKey(KeyCode.Space) && fixableObject != null && Vector3.Distance(transform.position, fixableObject.transform.position) < distanceFromFixer)
         {
+            animator.SetBool("isAttacking", true);
             if (fixingHandler == null)
                 fixingHandler = fixableObject.GetComponent<FixingHandler>();
 
             fixingHandler.life++;
         }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            animator.SetBool("isAttacking", false);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<FixingHandler>() != null)
+        /*if (other.GetComponent<FixingHandler>() != null)
         {
             fixableObject = null;
             fixingHandler = null;
-        }
+        }*/
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
             Destroy(other.gameObject);
-            points++;
+            corpseCount++;
         }
     }
 

@@ -24,7 +24,7 @@ public class ItemPlacementHelper : MonoBehaviour
     {
         Vector3 pos = transform.position;
         pos.x = Mathf.Round(pos.x/8)*8;
-        pos.y = 0;
+        //pos.y = 0;
         pos.z = Mathf.Round(pos.z/8)*8;
         transform.position = pos;
     }

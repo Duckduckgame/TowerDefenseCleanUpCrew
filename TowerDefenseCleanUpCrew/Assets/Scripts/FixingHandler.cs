@@ -15,7 +15,8 @@ public class FixingHandler : MonoBehaviour
 
     [SerializeField]
     float damageTimerInSeconds;
-
+    [SerializeField]
+    bool showRadius;
     public List<EnemyUnit> attackingUnits;
     // Start is called before the first frame update
     void Start()
@@ -97,6 +98,12 @@ public class FixingHandler : MonoBehaviour
             }
         }
         catch { }
+
+        if (showRadius)
+        {
+            SphereCollider col = GetComponent<SphereCollider>();
+            Gizmos.DrawWireSphere(transform.position + col.center, col.radius);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

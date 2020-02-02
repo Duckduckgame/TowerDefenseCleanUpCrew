@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
 
 
     GameObject player;
+    PlayerControler playerControler;
     EnemySpawn[] enemySpawns;
     FixingHandler[] fixableObjects;
     public float timer;
@@ -17,6 +18,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerControler = player.GetComponent<PlayerControler>();
         enemySpawns = FindObjectsOfType<EnemySpawn>();
         fixableObjects = FindObjectsOfType<FixingHandler>();
         UIManager = FindObjectOfType<UIManager>();
@@ -38,6 +40,11 @@ public class LevelManager : MonoBehaviour
             {
                 StopClean();
             }
+        }
+
+        if(crntState == GameState.Clean)
+        {
+            UIManager.corpseCount.text = playerControler.corpseCount.ToString();
         }
     }
 

@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI cleanStart;
     [SerializeField]
     public TextMeshProUGUI timer;
+    [SerializeField]
+    public TextMeshProUGUI corpseCount;
 
     // Start is called before the first frame update
     void Start()
