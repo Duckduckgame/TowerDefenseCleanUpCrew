@@ -12,11 +12,17 @@ public class LevelManager : MonoBehaviour
     PlayerControler playerControler;
     EnemySpawn[] enemySpawns;
     FixingHandler[] fixableObjects;
+    PrizeHandler[] prizes;
+    public int prizesTaken;
     public float timer;
     UIManager UIManager;
     int roundCount = 0;
+    Vector3 cameraSiegePos;
+    int RoundsLeft = 5;
     void Start()
     {
+        cameraSiegePos = Camera.main.transform.position;
+        prizes = FindObjectsOfType<PrizeHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerControler = player.GetComponent<PlayerControler>();
         enemySpawns = FindObjectsOfType<EnemySpawn>();
@@ -29,7 +35,7 @@ public class LevelManager : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        UIManager.timer.text = Mathf.Floor(timer).ToString();
+        UIManager.timer.text =  Mathf.Floor(timer*-1+20).ToString();
         if(timer > 20)
         {
             if (crntState == GameState.Siege)
@@ -46,11 +52,16 @@ public class LevelManager : MonoBehaviour
         {
             UIManager.corpseCount.text = playerControler.corpseCount.ToString();
         }
+
+        if (prizesTaken == prizes.Length)
+            LoseGame();
     }
 
     void StartSiege()
     {
+        Camera.main.transform.position = cameraSiegePos;
         timer = 0;
+        UIManager.siegeStart.text = "The Siege Starts. /n Rounds left: " + RoundsLeft.ToString();
         StartCoroutine(UIManager.ShowText(UIManager.siegeStart, 2f));
         crntState = GameState.Siege;
         player.SetActive(false);
@@ -62,12 +73,13 @@ public class LevelManager : MonoBehaviour
 
     void StopSiege()
     {
+        
         timer = 0;
         foreach (FixingHandler obj in fixableObjects)
         {
             obj.attackingUnits.Clear();
         }
-        roundCount++;
+        RoundsLeft--;
         StartClean();
     }
 
@@ -89,5 +101,10 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         Debug.LogError("You Lost.");
+    }
+
+    public void FlashFixText()
+    {
+        StartCoroutine(UIManager.FlashText(UIManager.fixText, 0.1f));
     }
 }

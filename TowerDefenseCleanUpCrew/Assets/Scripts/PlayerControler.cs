@@ -36,7 +36,8 @@ public class PlayerControler : MonoBehaviour
         FlatMovement();
 
         FixObject();
-
+        if (fixableObject != null)
+            fixingHandler = fixableObject.GetComponent<FixingHandler>();
     }
 
     void FlatMovement()

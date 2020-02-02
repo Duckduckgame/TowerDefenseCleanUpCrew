@@ -4,24 +4,15 @@ using UnityEngine;
 
 public class PrizeHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
-            FindObjectOfType<LevelManager>().LoseGame();
+            FindObjectOfType<LevelManager>().prizesTaken++;
+
+            GetComponentInChildren<SpriteRenderer>().color = Color.red;
+            Destroy(this);
         }
-        Destroy(gameObject);
     }
 }

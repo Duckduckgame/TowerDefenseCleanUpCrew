@@ -40,6 +40,7 @@ public class FixingHandler : MonoBehaviour
         {
             Die();
         }
+        
     }
 
     void DamageSelf()
@@ -111,6 +112,7 @@ public class FixingHandler : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             other.GetComponent<PlayerControler>().fixableObject = this.gameObject;
+            FindObjectOfType<LevelManager>().FlashFixText();
         }
     }
 }
