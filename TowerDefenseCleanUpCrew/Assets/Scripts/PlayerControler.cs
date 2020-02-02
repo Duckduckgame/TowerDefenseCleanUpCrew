@@ -19,8 +19,7 @@ public class PlayerControler : MonoBehaviour
 
     SpriteRenderer  spriteRenderer;
     Animator animator;
-    [SerializeField]
-    float points = 0;
+    public float corpseCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,10 +73,15 @@ public class PlayerControler : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && fixableObject != null)
         {
+            animator.SetBool("isAttacking", true);
             if (fixingHandler == null)
                 fixingHandler = fixableObject.GetComponent<FixingHandler>();
 
             fixingHandler.life++;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            animator.SetBool("isAttacking", false);
         }
     }
 
@@ -94,7 +98,7 @@ public class PlayerControler : MonoBehaviour
         if(other.tag == "Enemy")
         {
             Destroy(other.gameObject);
-            points++;
+            corpseCount++;
         }
     }
 
