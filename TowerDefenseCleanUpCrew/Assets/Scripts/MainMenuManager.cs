@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [SerializeField]
+    GameObject menuCanvas;
+
+    [SerializeField]
+    GameObject tutorialCanvas;
 
     public void StartLevelOne()
     {
@@ -23,6 +28,13 @@ public class MainMenuManager : MonoBehaviour
 
     public void Tutorial()
     {
+        menuCanvas.SetActive(false);
+        tutorialCanvas.SetActive(true);
+    }
 
+    public void BackToMenu()
+    {
+        menuCanvas.SetActive(true);
+        tutorialCanvas.SetActive(false);
     }
 }

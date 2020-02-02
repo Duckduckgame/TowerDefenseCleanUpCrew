@@ -47,11 +47,11 @@ public class LevelManager : MonoBehaviour
         UIManager.timer.text =  Mathf.Floor(timer*-1+20).ToString();
         if(timer > 20)
         {
-            if (crntState == GameState.Siege && RoundsLeft > 1)
+            if (crntState == GameState.Siege)
             {
                 StopSiege();
             }
-            else if (crntState == GameState.Clean && RoundsLeft > 0)
+            else if (crntState == GameState.Clean)
             {
                 StopClean();
             }
@@ -105,14 +105,17 @@ public class LevelManager : MonoBehaviour
 
     void StartClean()
     {
-        source.clip = musicClips[1];
-        source.Play();
-        StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 1f));
-        StartCoroutine(UIManager.ShowPanel(UIManager.startCleanPanel, 5f));
-        StartCoroutine(ResetTimerAfterTime(5));
-        timer = 0;
-        crntState = GameState.Clean;
-        player.SetActive(true);
+        if (RoundsLeft != 0)
+        {
+            source.clip = musicClips[1];
+            source.Play();
+            StartCoroutine(UIManager.FlashText(UIManager.cleanStart, 1f));
+            StartCoroutine(UIManager.ShowPanel(UIManager.startCleanPanel, 5f));
+            StartCoroutine(ResetTimerAfterTime(5));
+            timer = 0;
+            crntState = GameState.Clean;
+            player.SetActive(true);
+        }
     }
 
     void StopClean()
