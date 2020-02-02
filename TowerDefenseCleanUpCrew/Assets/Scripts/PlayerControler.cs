@@ -13,6 +13,8 @@ public class PlayerControler : MonoBehaviour
     [SerializeField]
     float maxSpeed = 5;
     Rigidbody rb;
+    [SerializeField]
+    float distanceFromFixer;
 
     public GameObject fixableObject;
     FixingHandler fixingHandler;
@@ -71,7 +73,7 @@ public class PlayerControler : MonoBehaviour
 
     void FixObject()
     {
-        if (Input.GetKey(KeyCode.Space) && fixableObject != null)
+        if (Input.GetKey(KeyCode.Space) && fixableObject != null && Vector3.Distance(transform.position, fixableObject.transform.position) < distanceFromFixer)
         {
             animator.SetBool("isAttacking", true);
             if (fixingHandler == null)
@@ -87,11 +89,11 @@ public class PlayerControler : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<FixingHandler>() != null)
+        /*if (other.GetComponent<FixingHandler>() != null)
         {
             fixableObject = null;
             fixingHandler = null;
-        }
+        }*/
     }
     private void OnTriggerEnter(Collider other)
     {
